@@ -7,6 +7,7 @@ server.use(express.json());
 server.use(cors());
 
 const users = [];
+const tweets = [];
 
 server.post("/sign-up", (req, res) => {
   const {username, avatar} = req.body;
@@ -23,6 +24,18 @@ server.post("/sign-up", (req, res) => {
     res.send("OK");
   }
 });
+
+server.post("/tweets", (req, res) => {
+  const {username, tweet} = req.body;
+
+  if(!users.find(user => user.username === username)){
+    return res.send("UNAUTHORIZED")
+  }
+
+  tweets.push({username, tweet});
+  res.send("tweetei isso");
+});
+
 
 server.listen(PORT, () => {
   console.log("Servidor funcionou")
