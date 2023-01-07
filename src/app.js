@@ -9,20 +9,20 @@ server.use(cors());
 const users = [];
 
 server.post("/sign-up", (req, res) => {
-  const newAccount = req.body;
+  const {username, avatar} = req.body;
+  const isUserInUse = users.some(user => user.avatar === avatar);
 
-  if(!newAccount.username || !newAccount.avatar){
+  if(!username || !avatar){
     return res.status(422).send("Por favor mande todos os campos preenchidos!")
   }
 
-  const user = users.length + 1;
-  newAccount.username = user;
-  users.push(newAccount)
-
-  users.push(newAccount);
-  res.send("OK");
+  if (isUserInUse) {
+    res.status(400).send({ error: 'Usuário já está sendo utilizado, por favor, selecione outro!' });
+  } else {
+    users.push({username, avatar});
+    res.send("OK");
+  }
 });
-
 
 server.listen(PORT, () => {
   console.log("Servidor funcionou")
