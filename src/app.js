@@ -25,6 +25,7 @@ server.post("/sign-up", (req, res) => {
   }
 });
 
+
 server.post("/tweets", (req, res) => {
   const {username, tweet} = req.body;
 
@@ -33,7 +34,24 @@ server.post("/tweets", (req, res) => {
   }
 
   tweets.push({username, tweet});
-  res.send("tweetei isso");
+  res.send(tweets);
+});
+
+
+server.get("/tweets", (req, res) => {
+  const ten = tweets.slice(-10);
+  const resp = ten.map(tweet => {
+    const user = users.find(user => user.username === tweet.username);
+    if (user !== undefined && user.avatar !== undefined){
+      return {
+        username: tweet.username,
+        avatar: user ? user.avatar : "",
+        tweet: tweet.tweet,
+      };
+    }
+  });
+  const filteredTweets = resp.filter(tweet => tweet !== null);
+  res.send(filteredTweets);
 });
 
 
