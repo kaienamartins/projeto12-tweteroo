@@ -11,7 +11,7 @@ const tweets = [];
 
 server.post("/sign-up", (req, res) => {
   const {username, avatar} = req.body;
-  const isUserInUse = users.some(user => user.avatar === avatar);
+  const isUserInUse = users.some(user => user.username === username);
 
   if(!username || !avatar){
     return res.status(422).send("Por favor mande todos os campos preenchidos!")
@@ -34,7 +34,7 @@ server.post("/tweets", (req, res) => {
   }
 
   tweets.push({username, tweet});
-  res.send(tweets);
+  res.send("OK");
 });
 
 
