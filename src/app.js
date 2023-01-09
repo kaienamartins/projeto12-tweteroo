@@ -54,7 +54,4 @@ server.get("/tweets", (req, res) => {
   res.send(filteredTweets);
 });
 
-
-server.listen(PORT, () => {
-  console.log("Servidor funcionou")
-});
+server.listen(PORT);
